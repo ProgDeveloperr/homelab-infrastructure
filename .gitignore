@@ -1,0 +1,73 @@
+# Secretos y configuración local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+
+# Estados y datos operativos
+.centro-desarrollo.json
+**/state/*.json
+**/data/*.json
+**/datos/*.json
+state/
+data/
+datos/
+
+# Bases de datos y volcados
+*.sqlite
+*.sqlite3
+*.db
+*.sql
+*.dump
+
+# Runtime, logs y temporales
+.runtime/
+runtime/
+logs/
+tmp/
+temp/
+*.log
+*.lock
+*.pid
+*.sock
+
+# Respaldos y archivos históricos
+*.bak
+*.bak-*
+*.bak_*
+*.backup
+*.backup-*
+*.backup_*
+*.antes-*
+*.old
+*~
+
+# Archivos comprimidos y contenido operativo
+*.tar
+*.tar.gz
+*.tgz
+*.gz
+*.bz2
+*.xz
+*.zip
+*.7z
+*.rar
+
+# Dependencias
+vendor/
+node_modules/
+
+# Editores y sistema operativo
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Reportes locales de herramientas
+coverage/
+.phpunit.result.cache

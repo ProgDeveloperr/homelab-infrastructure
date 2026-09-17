@@ -1,0 +1,19 @@
+# Configuración privada
+.env
+.env.*
+!.env.example
+
+# Respaldos y registros
+*.bak*
+*.log
+
+# Información generada automáticamente
+datos/*.lock
+datos/estado-operativo.json
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+
+# Auditoría generada durante el uso del panel
+datos/operaciones.php
