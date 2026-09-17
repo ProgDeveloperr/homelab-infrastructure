@@ -1,0 +1,44 @@
+name: PHP Syntax
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  php-syntax:
+    name: PHP 8.2 syntax validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate PHP syntax
+        shell: bash
+        run: |
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE:/workspace:ro" \
+            -w /workspace \
+            php:8.2-cli \
+            sh -lc '
+              COUNT=$(find apps -type f -name "*.php" | wc -l)
+
+              echo "PHP files found: $COUNT"
+
+              if [ "$COUNT" -eq 0 ]; then
+                  echo "No PHP files were found."
+                  exit 1
+              fi
+
+              find apps -type f -name "*.php" -print0 \
+                | xargs -0 -r -n1 php -l
+            '
