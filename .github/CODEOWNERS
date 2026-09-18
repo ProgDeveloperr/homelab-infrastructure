@@ -1,0 +1,13 @@
+# Default repository owner
+* @ProgDeveloperr
+
+# Repository automation
+/.github/ @ProgDeveloperr
+
+# Application source
+/apps/ @ProgDeveloperr
+
+# Architecture and documentation
+/docs/ @ProgDeveloperr
+/README.md @ProgDeveloperr
+/SECURITY.md @ProgDeveloperr
