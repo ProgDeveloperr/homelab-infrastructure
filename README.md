@@ -1,5 +1,7 @@
 # Homelab Infrastructure
 
+[![PHP Syntax](https://github.com/ProgDeveloperr/homelab-infrastructure/actions/workflows/php-syntax.yml/badge.svg)](https://github.com/ProgDeveloperr/homelab-infrastructure/actions/workflows/php-syntax.yml)
+
 Colección sanitizada de aplicaciones web desarrolladas para observar y administrar un laboratorio doméstico. El repositorio reúne cuatro módulos independientes construidos con PHP, JavaScript, HTML y CSS, con especial atención a la configuración externa, la separación de responsabilidades y el comportamiento seguro ante fallos.
 
 Esta publicación presenta el diseño y el código de las interfaces sin exponer credenciales, datos operativos, direcciones privadas, rutas productivas ni contenido personal del servidor.
@@ -89,14 +91,19 @@ Nunca deben versionarse archivos `.env` reales ni reemplazarse los valores de ej
 
 ## Validación
 
-Para comprobar la sintaxis de todos los archivos PHP:
+El repositorio incluye integración continua mediante GitHub Actions. En cada `push` y `pull_request` contra `main`, los archivos PHP se validan automáticamente con PHP 8.2.
+
+La misma comprobación puede ejecutarse localmente mediante Docker:
 
 ```bash
-find apps -type f -name '*.php' -print0 \
-  | xargs -0 -n1 php -l
+docker run --rm \
+  -v "$PWD:/workspace:ro" \
+  -w /workspace \
+  php:8.2-cli \
+  sh -lc 'find apps -type f -name "*.php" -print0 | xargs -0 -r -n1 php -l'
 ```
 
-La preparación inicial de esta publicación validó 64 archivos PHP y auditó el staging para detectar secretos, rutas productivas, sockets, bases de datos, copias históricas y archivos de estado.
+La publicación inicial validó 64 archivos PHP y auditó el staging para detectar secretos, rutas productivas, sockets, bases de datos, copias históricas y archivos de estado.
 
 ## Alcance público
 
