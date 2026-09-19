@@ -2,56 +2,109 @@
 
 [![Validate](https://github.com/ProgDeveloperr/homelab-infrastructure/actions/workflows/php-syntax.yml/badge.svg)](https://github.com/ProgDeveloperr/homelab-infrastructure/actions/workflows/php-syntax.yml)
 
-Colección sanitizada de aplicaciones web desarrolladas para observar y administrar un laboratorio doméstico. El repositorio reúne cuatro módulos independientes construidos con PHP, JavaScript, HTML y CSS, con especial atención a la configuración externa, la separación de responsabilidades y el comportamiento seguro ante fallos.
+<p align="center">
+  <img src="docs/social-preview.jpg" alt="Homelab Infrastructure portfolio preview" width="100%">
+</p>
 
-Esta publicación presenta el diseño y el código de las interfaces sin exponer credenciales, datos operativos, direcciones privadas, rutas productivas ni contenido personal del servidor.
+Colección de aplicaciones web desarrolladas para **observar, administrar y documentar un homelab real**. El repositorio reúne interfaces operativas, proyecciones de estado y herramientas de automatización construidas con una arquitectura orientada a separación de responsabilidades, mínimo privilegio y comportamiento seguro ante fallos.
 
-## Módulos
+El código publicado es una **versión sanitizada para portfolio**: no incluye credenciales, direcciones privadas reales, estados productivos, bases de datos, logs, sockets, respaldos ni contenido personal.
 
-| Aplicación | Propósito | Enfoque principal |
+## Qué demuestra este proyecto
+
+| Área | Implementación |
+| --- | --- |
+| Observabilidad | Estado de host, almacenamiento, servicios, red, tareas, backups y ecosistema multimedia |
+| Backend web | PHP 8.2 con separación entre presentación, configuración y fuentes de estado |
+| Frontend | JavaScript, HTML5 y CSS3 con interfaces operativas responsivas |
+| Automatización | Integración con servicios systemd, timers y procesos auxiliares |
+| Infraestructura | Docker, Apache, JSON, almacenamiento y servicios autoalojados |
+| Seguridad | Configuración externa, publicación sanitizada, mínimo privilegio y operaciones fail-closed |
+| Calidad | GitHub Actions, revisión de sintaxis, Dependabot, CODEOWNERS y plantillas de colaboración |
+
+## Aplicaciones
+
+| Aplicación | Propósito | Enfoque |
 | --- | --- | --- |
-| [Centro Desarrollo](apps/centro-desarrollo/) | Organizar y consultar proyectos alojados en un servidor web | Gestión centralizada y configuración externa |
-| [Centro Servidor](apps/centro-servidor/) | Presentar estado de servicios, red, almacenamiento, backups y eventos | Observabilidad de solo lectura |
-| [Centro Multimedia](apps/centro-multimedia/) | Consultar biblioteca, solicitudes, descargas y estado multimedia | Proyecciones JSON y operaciones sensibles *fail-closed* |
-| [Centro Backups](apps/centro-backups/) | Visualizar historial e integridad de respaldos | Lectura segura y comprobaciones SHA-256 |
+| [Centro Servidor](apps/centro-servidor/) | Estado general del host, disco, servicios, tareas, backups y conectividad | Observabilidad operativa |
+| [Centro Multimedia](apps/centro-multimedia/) | Biblioteca, solicitudes, descargas, almacenamiento y runtime multimedia | Proyecciones desacopladas y operaciones protegidas |
+| [Centro Desarrollo](apps/centro-desarrollo/) | Inventario y gestión visual de proyectos alojados en el servidor | Laboratorio web y organización de proyectos |
+| [Centro Backups](apps/centro-backups/) | Estado, integridad e historial de copias | Verificación y recuperación |
 
-Cada módulo incluye su propio `README.md` y `.env.example` con requisitos, variables y límites específicos.
+## Centro Servidor
 
-## Arquitectura general
+Panel central para supervisar el estado del servidor, SMART, servicios, automatizaciones, copias y conectividad sin mezclar la interfaz con los procesos privilegiados que producen los datos.
+
+<p align="center">
+  <img src="docs/screenshots/server-overview.webp" alt="Centro Servidor - resumen operativo" width="100%">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/server-storage.webp" alt="Centro Servidor - salud y almacenamiento" width="49%">
+  <img src="docs/screenshots/server-activity.webp" alt="Centro Servidor - actividad" width="49%">
+</p>
+
+## Centro Multimedia
+
+Capa administrativa y de observabilidad del ecosistema multimedia. Modela capacidad física, referencias lógicas, biblioteca, solicitudes, descargas, actividad y salud interna mediante snapshots y providers desacoplados.
+
+<p align="center">
+  <img src="docs/screenshots/multimedia-summary.webp" alt="Centro Multimedia - resumen" width="100%">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/multimedia-storage.webp" alt="Centro Multimedia - almacenamiento" width="49%">
+  <img src="docs/screenshots/multimedia-system.webp" alt="Centro Multimedia - sistema" width="49%">
+</p>
+
+## Centro Desarrollo
+
+Interfaz para centralizar los proyectos alojados en el servidor, consultar tecnologías y características del entorno y mantener una vista operativa del laboratorio de desarrollo.
+
+<p align="center">
+  <img src="docs/screenshots/development-home.webp" alt="Centro Desarrollo - inicio" width="100%">
+</p>
+
+## Centro Backups
+
+Vista dedicada al estado de las copias automáticas y sus controles de integridad.
+
+<p align="center">
+  <img src="docs/screenshots/backups-overview.webp" alt="Centro Backups - estado de copias" width="100%">
+</p>
+
+La [galería completa](docs/SCREENSHOTS.md) contiene vistas adicionales de servicios, red, biblioteca, descargas y proyectos.
+
+## Arquitectura
 
 ```mermaid
-flowchart TD
-    A[Procesos privados del homelab] --> B[Estados y proyecciones]
-    B --> C[Aplicaciones PHP]
-    C --> D[Interfaz web]
-    D --> E[Usuario]
-    C -. operaciones protegidas .-> F[Servicios externos aislados]
+flowchart LR
+    A[Servicios y procesos privados] --> B[Collectors / estados / snapshots]
+    B --> C[JSON y configuración externa]
+    C --> D[Aplicaciones PHP]
+    D --> E[JavaScript / HTML / CSS]
+    E --> F[Interfaz del usuario]
+    D -. operaciones protegidas .-> G[Servicios aislados]
 ```
 
-Las aplicaciones públicas funcionan como capa de presentación. La recolección de datos, las credenciales, los servicios privilegiados y los archivos productivos permanecen fuera del repositorio.
+La capa web no incorpora credenciales ni necesita acceso irrestricto al sistema. Las fuentes productivas, recolectores, workers y componentes privilegiados permanecen fuera de este repositorio.
 
-La descripción completa se encuentra en [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+Más detalles en [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-## Principios del proyecto
+## Principios de diseño
 
-- **Configuración externa:** rutas y hosts dependen de variables de entorno.
-- **Datos fuera del código:** los estados productivos no se versionan.
-- **Mínimo privilegio:** las vistas de observabilidad operan en modo lectura.
+- **Configuración externa:** hosts, rutas y dependencias operativas no quedan fijados en el código público.
+- **Separación de responsabilidades:** la UI consume estados y APIs en lugar de sustituir servicios de sistema.
+- **Mínimo privilegio:** las vistas de observabilidad priorizan lectura y exposición controlada.
 - **Fail-closed:** una dependencia ausente no habilita acciones sensibles.
-- **Separación de responsabilidades:** la interfaz no reemplaza recolectores, workers ni autorizadores.
-- **Publicación sanitizada:** el código se revisa antes de incorporarse al historial Git.
+- **Estados desacoplados:** JSON, snapshots y proyecciones permiten desacoplar productores y consumidores.
+- **Sanitización previa al versionado:** datos productivos y secretos se excluyen antes de entrar al historial Git.
 
-## Tecnologías
+## Stack
 
-- PHP 8.2
-- JavaScript
-- HTML5 y CSS3
-- Apache HTTP Server
-- JSON como formato de proyección
-- Docker como entorno de ejecución opcional
-- Sockets Unix para integraciones aisladas
+`PHP 8.2` · `JavaScript` · `HTML5` · `CSS3` · `Apache` · `Docker` · `JSON` · `systemd` · `Unix sockets`
 
-## Estructura del repositorio
+## Estructura
 
 ```text
 homelab-infrastructure/
@@ -61,66 +114,58 @@ homelab-infrastructure/
 │   ├── centro-multimedia/
 │   └── centro-servidor/
 ├── docs/
-│   └── ARCHITECTURE.md
-├── .gitattributes
-├── .gitignore
-├── README.md
-└── SECURITY.md
+│   ├── ARCHITECTURE.md
+│   ├── SCREENSHOTS.md
+│   ├── social-preview.jpg
+│   └── screenshots/
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   ├── workflows/
+│   ├── CODEOWNERS
+│   ├── dependabot.yml
+│   └── pull_request_template.md
+├── CONTRIBUTING.md
+├── SECURITY.md
+└── README.md
 ```
 
-Los directorios reservados para infraestructura, diagramas, capturas o scripts solo se incorporarán cuando exista contenido público real. Git no versiona carpetas vacías.
+## Validación continua
+
+GitHub Actions valida cada `push` y `pull_request` contra `main`:
+
+- sintaxis PHP 8.2;
+- sintaxis JavaScript;
+- documentos JSON;
+- scripts shell.
+
+La publicación también se audita para evitar la incorporación accidental de secretos, IP privadas reales, rutas productivas y datos operativos.
 
 ## Ejecución local
 
-Cada aplicación puede revisarse de forma independiente. Por ejemplo:
+Cada aplicación puede inspeccionarse de manera independiente. Por ejemplo:
 
 ```bash
 cd apps/centro-servidor
 php -S 127.0.0.1:8080
 ```
 
-Luego abra `http://127.0.0.1:8080` en el navegador.
+Las vistas que dependen de snapshots o servicios externos mostrarán datos vacíos o no disponibles hasta que se suministren fuentes compatibles.
 
-Las aplicaciones que consumen estados externos mostrarán información vacía o no disponible hasta que se configuren fuentes compatibles.
+## Seguridad y privacidad
 
-## Configuración
+No se versionan:
 
-Los archivos `.env.example` documentan las variables admitidas. PHP no los carga automáticamente: las variables deben suministrarse mediante Apache, PHP-FPM, Docker o el gestor de procesos utilizado.
+- contraseñas, tokens, claves privadas ni credenciales;
+- direcciones IP privadas reales;
+- rutas internas del servidor original;
+- bases de datos o estados productivos;
+- logs, sockets o archivos temporales;
+- backups y contenido multimedia real.
 
-Nunca deben versionarse archivos `.env` reales ni reemplazarse los valores de ejemplo por información productiva.
-
-## Validación
-
-El repositorio incluye integración continua mediante GitHub Actions. En cada `push` y `pull_request` contra `main` se validan automáticamente la sintaxis PHP 8.2, los archivos JavaScript, los documentos JSON y los scripts shell presentes en el repositorio.
-
-La misma comprobación puede ejecutarse localmente mediante Docker:
-
-```bash
-docker run --rm \
-  -v "$PWD:/workspace:ro" \
-  -w /workspace \
-  php:8.2-cli \
-  sh -lc 'find apps -type f -name "*.php" -print0 | xargs -0 -r -n1 php -l'
-```
-
-La publicación inicial validó 64 archivos PHP y auditó el staging para detectar secretos, rutas productivas, sockets, bases de datos, copias históricas y archivos de estado.
-
-## Alcance público
-
-El repositorio incluye código de interfaz y ejemplos de configuración. No incluye:
-
-- credenciales, tokens o claves privadas;
-- estados JSON productivos;
-- bases de datos, registros o archivos temporales;
-- contenido multimedia o respaldos reales;
-- sockets y servicios privilegiados;
-- configuración interna completa del servidor;
-- proyectos personales clasificados como privados.
-
-Consulte [SECURITY.md](SECURITY.md) antes de reportar una vulnerabilidad o publicar información potencialmente sensible.
+Consulte [SECURITY.md](SECURITY.md) antes de reportar información potencialmente sensible.
 
 ## Estado
 
-Proyecto personal en evolución. Su objetivo es documentar experiencia práctica en desarrollo web, observabilidad, automatización y diseño seguro de herramientas para infraestructura doméstica.
+Proyecto personal activo y utilizado como laboratorio práctico de desarrollo web, observabilidad, automatización e infraestructura autoalojada.
 
 Desarrollado por [ProgDeveloperr](https://github.com/ProgDeveloperr).
