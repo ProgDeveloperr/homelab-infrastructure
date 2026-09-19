@@ -1,0 +1,34 @@
+name: Feature request
+description: Propose an improvement for the homelab applications
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: dropdown
+    id: application
+    attributes:
+      label: Application
+      options:
+        - Centro Servidor
+        - Centro Multimedia
+        - Centro Desarrollo
+        - Centro Backups
+        - Shared infrastructure
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What limitation or use case should be addressed?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the expected behavior or architecture.
+    validations:
+      required: true

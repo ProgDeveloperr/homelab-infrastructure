@@ -1,6 +1,6 @@
 # Homelab Infrastructure
 
-[![PHP Syntax](https://github.com/ProgDeveloperr/homelab-infrastructure/actions/workflows/php-syntax.yml/badge.svg)](https://github.com/ProgDeveloperr/homelab-infrastructure/actions/workflows/php-syntax.yml)
+[![Validate](https://github.com/ProgDeveloperr/homelab-infrastructure/actions/workflows/php-syntax.yml/badge.svg)](https://github.com/ProgDeveloperr/homelab-infrastructure/actions/workflows/php-syntax.yml)
 
 Colección sanitizada de aplicaciones web desarrolladas para observar y administrar un laboratorio doméstico. El repositorio reúne cuatro módulos independientes construidos con PHP, JavaScript, HTML y CSS, con especial atención a la configuración externa, la separación de responsabilidades y el comportamiento seguro ante fallos.
 
@@ -91,7 +91,7 @@ Nunca deben versionarse archivos `.env` reales ni reemplazarse los valores de ej
 
 ## Validación
 
-El repositorio incluye integración continua mediante GitHub Actions. En cada `push` y `pull_request` contra `main`, los archivos PHP se validan automáticamente con PHP 8.2.
+El repositorio incluye integración continua mediante GitHub Actions. En cada `push` y `pull_request` contra `main` se validan automáticamente la sintaxis PHP 8.2, los archivos JavaScript, los documentos JSON y los scripts shell presentes en el repositorio.
 
 La misma comprobación puede ejecutarse localmente mediante Docker:
 
