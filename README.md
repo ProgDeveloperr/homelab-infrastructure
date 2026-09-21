@@ -48,6 +48,8 @@ Panel central para supervisar el estado del servidor, SMART, servicios, automati
 
 Capa administrativa y de observabilidad del ecosistema multimedia. Modela capacidad física, referencias lógicas, biblioteca, solicitudes, descargas, actividad y salud interna mediante snapshots y providers desacoplados.
 
+Las operaciones sensibles utilizan un plano separado de propuesta, autorización y ejecución. El diseño incorpora separación de privilegios, journaling durable y recuperación ante interrupciones; los componentes privilegiados permanecen fuera de la exportación pública.
+
 <p align="center">
   <img src="docs/screenshots/multimedia-summary.webp" alt="Centro Multimedia - resumen" width="100%">
 </p>

@@ -32,8 +32,11 @@ flowchart TD
     C --> D[Interfaz web]
     D --> E[Preflight]
     E --> F[Propuesta protegida]
-    F --> G[Writer externo]
-    F --> H[Authorizer externo]
+    F --> G[Proposal writer externo]
+    G --> H[Authorizer externo]
+    H --> I[Boundary de ejecución]
+    I --> J[Executor aislado]
+    I --> K[Recovery reconciler]
 ```
 
 La interfaz consume proyecciones JSON generadas fuera de este proyecto. Las solicitudes sensibles atraviesan validaciones web y, cuando están habilitadas, se delegan mediante sockets Unix a servicios externos responsables de autorizar y registrar la operación.
@@ -43,7 +46,10 @@ La interfaz consume proyecciones JSON generadas fuera de este proyecto. Las soli
 - **Solo lectura por defecto:** las vistas principales consumen archivos de estado sin modificarlos.
 - **Fail-closed:** `CMM_PROPOSAL_CREATE_ENABLED` está desactivado de manera predeterminada.
 - **Sin mutación directa:** el frontend y las APIs públicas no ejecutan eliminaciones sobre la biblioteca.
-- **Separación de privilegios:** writer y authorizer son componentes externos comunicados mediante sockets Unix.
+- **Separación de privilegios:** writer, authorizer y plano de ejecución son componentes externos comunicados mediante sockets Unix.
+- **Boundary de ejecución:** la aplicación web no posee directamente la primitiva de eliminación sobre el filesystem.
+- **Registro durable:** las operaciones sensibles preservan evidencia persistente de sus transiciones antes y después del punto irreversible.
+- **Recuperación fail-closed:** el recovery utiliza evidencia durable y no interpreta por sí sola la ausencia de un archivo como éxito.
 - **Protección web:** las propuestas aplican controles de sesión, CSRF, mismo origen y estructura exacta de la solicitud.
 - **Rutas protegidas:** una lista configurable impide aceptar destinos pertenecientes a directorios sensibles.
 - **Datos privados excluidos:** el repositorio no contiene estados reales, archivos multimedia, secretos ni información del servidor productivo.
@@ -123,9 +129,15 @@ Antes de publicar una modificación también se recomienda verificar que:
 
 ## Alcance del repositorio público
 
-Este código permite estudiar la interfaz, las APIs y los límites de seguridad del proyecto. Para ejecutar el flujo completo de propuestas se necesitan servicios externos compatibles de writer y authorizer, además de las proyecciones de estado generadas por la infraestructura privada.
+Este código permite estudiar la interfaz, las APIs y los límites de seguridad del proyecto. Para ejecutar el flujo completo se necesitan servicios externos compatibles de writer, authorizer, ejecución y recuperación, además de las proyecciones de estado generadas por la infraestructura privada.
 
-Esos componentes y los datos operativos no forman parte de esta publicación.
+Los componentes privilegiados, la evidencia de ejecución y los datos operativos no forman parte de esta publicación.
+
+## Flujo de operaciones protegidas
+
+El flujo productivo fue validado de extremo a extremo con preflight, propuesta, autorización, separación de privilegios, ejecución controlada, journaling durable, recuperación ante interrupciones y convergencia posterior del inventario.
+
+La aplicación web no ejecuta directamente la operación irreversible. Los componentes privilegiados y la evidencia operativa permanecen fuera de esta publicación.
 
 ## Estado
 
